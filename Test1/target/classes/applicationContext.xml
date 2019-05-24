@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!-- 管理教师对象 -->
+
+<bean id="teacher" class ="demo.Teacher">
+<property name="name" value="王大锤"></property>
+<property name="sex" value="男"></property>
+<property name="age" value="28"></property>
+<property name="title" value="教授"></property>
+
+<!--  构造器注入
+ <constructor-arg name="name" value="王大锤"></constructor-arg>
+ <constructor-arg name="sex" value="男"></constructor-arg>
+ <constructor-arg name="age" value="28"></constructor-arg>
+ <constructor-arg name="title" value="教授"></constructor-arg>
+ -->
+ </bean>
+ <!-- 管理课程对象 -->
+ <bean id="courses" class="demo.Courses">
+<property name="CourseNumber" value="123"></property>
+<property name="CourseName" value="Java"></property>
+<property name="CourseType" value="计算机"></property>
+<property name="teacher" ref="teacher"></property>
+
+
+
+ <!--  构造器注入
+ <constructor-arg name="CourseNumber" value="123"></constructor-arg>
+ <constructor-arg name="CourseName" value="Java"></constructor-arg>
+ <constructor-arg name="CourseType" value="计算机"></constructor-arg>
+ <constructor-arg name="teacher" ref="teacher"></constructor-arg>
+ -->
+ </bean>
+</beans>
