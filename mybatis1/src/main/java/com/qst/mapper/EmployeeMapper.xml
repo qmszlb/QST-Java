@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.mapper.EmployeeMapper">
+	<!-- 根据id精确查询单条数据 -->
+	<select id="selectEmployeeById" resultType="com.qst.po.Employee" parameterType="Integer"> 
+		select * from tb_employee where empid = #{empid}  
+	</select>
+	
+	<!-- 全检索（多条数据） -->
+	<select id="selectEmployee" resultType="com.qst.po.Employee">
+		select * from tb_employee
+	</select>
+	
+	<!-- 模糊查询：根据名字查询 -->
+	<select id="selectEmployeeByName" parameterType="String" resultType="com.qst.po.Employee">
+		select * from tb_employee where name like concat('%',#{name},'%')
+	</select>
+	
+	<insert id="insertEmployee" parameterType="com.qst.po.Employee">
+		insert into tb_employee values(#{empid},#{name},#{gender},#{birthday},#{mobile},#{email},#{position},#{note})
+	</insert>
+	
+	<update id="updateEmployee" parameterType="com.qst.po.Employee">
+		update tb_employee set position = #{position} where empid = #{empid} 
+	</update>
+	
+	<delete id="deleteEmployee" parameterType="Integer">
+		delete from tb_employee where empid = #{empid}
+	</delete>
+</mapper>
