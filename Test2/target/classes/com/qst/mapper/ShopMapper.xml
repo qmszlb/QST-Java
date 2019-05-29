@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.mapper.ShopMapper">
+
+    <!-- 根据id精确查询单条数据 -->
+    <select id="selectShopById" resultType="com.qst.po.Shop" parameterType="Int">
+		select * from tb_shop where id = #{id}
+	</select>
+    <select id="selectShop" resultType="com.qst.po.Shop" >
+		select * from tb_shop
+	</select>
+    <!-- 插入-->
+    <insert id="insertShop" parameterType="Shop">
+	  insert into tb_shop values(#{id},#{name},#{price})
+	</insert>
+
+    <!-- 修改-->
+    <update id="updateShop" parameterType="Shop">
+	   update tb_shop set price = #{price} where id = #{id}
+	</update>
+
+    <!-- 删除-->
+    <delete id="deleteShop" parameterType="Int">
+           delete from tb_shop where id = #{id}
+	</delete>
+
+    <!--  动态查询-->
+    <select id="ifselectDynamicShop"  resultType="com.qst.po.Shop" parameterType="com.qst.po.Shop">
+        select * from tb_shop where 1=1
+        <if test="name!=null and name!=''">
+            and name=#{name}
+        </if>
+        <if test="price!=null and price!=''">
+            and price=#{price}
+        </if>
+    </select>
+
+    <!-- 模糊查找，根据名字-->
+    <select id="selectShopByName" resultType="Shop" parameterType="String">
+	 select * from tb_shop where name like  concat("%",#{name},"%" )
+	</select>
+
+
+</mapper>
