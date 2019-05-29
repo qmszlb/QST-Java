@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties resource="dbInfo.properties"></properties>
+	<!-- 指定别名 -->
+	 <typeAliases>
+	 <!-- 方式一，指定某个全限定类的别名  -->
+	   <!-- <typeAlias type="com.qst.po.Employee"  alias="employee"/> -->
+	    <!-- 方式二，扫描包来实现 默认为类名首字母小写 -->
+	    <package name="com.qst.po"/>
+	</typeAliases> 
+	<environments default="development">
+		  <environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${username}" />
+				<property name="password" value="${password}" />
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<mappers>
+	    <!-- 引入映射文件：1.类路径引入 -->
+	      <mapper resource="com/qst/mapper/EmployeeMapper.xml" />  
+	      <mapper resource="com/qst/mapper/EmployeeTaskMapper.xml" />  
+		<!-- 引入映射文件：2.包名引入 -->
+	<!-- 	<package name="com/qst/mapper"/> -->
+		<!-- 引入映射文件：3.接口径引入 -->
+		
+		<!-- 引入映射文件：4.本地文件径引入 -->
+		
+	</mappers>
+	
+	
+</configuration>
+<!-- 
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE configuration  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-config.dtd"> 
+<configuration> 
+ <environments default="development">   
+  <environment id="development">      
+  <transactionManager type="JDBC"/>  
+         <dataSource type="POOLED">  
+                 <property name="driver" value="${driver}"/>   
+                 <property name="url" value="${url}"/>    
+                 <property name="username" value="${username}"/> 
+                 <property name="password" value="${password}"/>   
+         </dataSource>  
+      </environment> 
+      </environments>
+      <mappers>   
+                  <mapper resource="org/mybatis/example/BlogMapper.xml"/> 
+       </mappers>
+ </configuration> 
+        -->

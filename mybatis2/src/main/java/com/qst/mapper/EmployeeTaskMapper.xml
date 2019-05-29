@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.mapper.EmployeeTaskMapper">
+
+<select id="selectEmployeeTask" resultType="com.qst.po.EmployeeTask" parameterType="int"> 
+		select * from tb_employee_task where empid= #{empid}  
+	</select>
+	
+	<!-- 全部查找 -->
+	<select id="selectEmployeeTaskall"  resultType="com.qst.po.EmployeeTask">
+	 select * from tb_employee_task
+	</select>
+	
+</mapper>

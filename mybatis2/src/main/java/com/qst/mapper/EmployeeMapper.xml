@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 利用resultMap定义对应关系 -->
+<!-- 
+property  集合名子
+ofType    集合的类型
+column    指定外键
+select    查询那个子查询
+ -->
+<mapper namespace="com.qst.mapper.EmployeeMapper">
+        <resultMap type="com.qst.po.Employee" id="employeeRelationMap">
+              <id column="empid" property="empid"></id>
+              <!-- <result  column="name" property="name"></result> -->
+            <collection property="employeeTask" ofType="com.qst.po.EmployeeTask"
+               column="empid" select="com.qst.mapper.EmployeeTaskMapper.selectEmployeeTask">
+           </collection>
+           <collection property="employeeTask" ofType="com.qst.po.EmployeeTask"
+               column="empid" select="com.qst.mapper.EmployeeTaskMapper.selectEmployeeTaskall">
+           </collection>
+ 
+
+        </resultMap>
+<!-- 根据ID 精确查找单条数据 -->
+	<select id="selectEmployeeById" resultMap="employeeRelationMap"  parameterType="int"> 
+		select * from tb_employee where empid= #{empid}  
+	</select>
+	
+	<!-- 全部查找 -->
+	<select id="selectEmployee"  resultMap="employeeRelationMap">
+	 select * from tb_employee
+	</select>
+	
+	<!-- 模糊查找，根据名字-->
+	<select id="selectEmployeeByName" resultType="employee" parameterType="String">
+	 select * from tb_employee where name like  concat("%",#{name},"%" )
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insertEmployee" parameterType="employee">
+	  insert into tb_employee values(#{empid},#{name},#{gender},#{birthday},#{mobile},#{email},#{position},#{note})
+	</insert>
+	
+		<!-- 修改 -->
+	<update id="updateEmployee" parameterType="employee">
+	   update tb_employee set position = #{position} where empid = #{empid} 
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteEmployee" parameterType="Int">
+           delete from tb_employee where empid = #{empid0.0}	
+	</delete>
+	
+	<!--  if动态查询 -->
+	<select id="ifselectDynamicEmployee"  resultType="com.qst.po.Employee" parameterType="com.qst.po.Employee">
+	      select * from tb_employee where 1=1
+	   <if test="name!=null and name!=''">
+	         and name=#{name}
+	   </if>	     
+	   <if test="empid!=null and empid!=''">
+	         and empid=#{empid}
+	   </if> 
+	</select>
+	
+	
+	
+	<!--  choose,wen,otherwise动态查询 -->
+	<select id="chooseselectDynamicEmployee"  resultType="com.qst.po.Employee" parameterType="com.qst.po.Employee">
+	      select * from tb_employee where 1=1
+	  <choose>
+	       <when test="name!=null and name!=''">
+	       and name=#{name}
+	       </when>
+	       <when test="empid!=null and empid!=''">
+	       and empid=#{empid}
+	       </when>
+	       <otherwise>
+	         and position=#{position}
+	       </otherwise>
+	  
+	  </choose>
+	  </select>
+	  
+	  	<!--  where动态查询 -->
+	<select id="whereselectDynamicEmployee"  resultType="com.qst.po.Employee" parameterType="com.qst.po.Employee">
+	      select * from tb_employee  
+	 <where>
+	   <if test="name!=null and name!=''">
+	       name=#{name}
+	   </if>
+	   <if test="empid!=null  and empid!=''">
+	       and empid=#{empid}
+	   </if>
+	    <if test="position!=null and position!=''">
+	       and position=#{position}
+	    </if>
+	 </where>
+	 </select>
+	 
+	
+	  	<!--  trim前缀动态查询 -->
+	<select id="trimsqianelectDynamicEmployee"  resultType="com.qst.po.Employee" parameterType="com.qst.po.Employee">
+	      select * from tb_employee  
+	  <trim prefix="where" prefixOverrides="and">
+	      <if test="name!=null and name!=''">
+	         name=#{name}
+	      </if>
+	      <if test="empid!=null  and empid!=''">
+	        and empid=#{empid}
+	      </if>
+	      <if test="position!=null and position!=''">
+	       and position=#{position}
+	      </if>
+	  </trim>
+	  
+	 </select>
+	  
+	  
+	  	  	<!--  trim后缀动态查询 -->
+	<update id="trimshouelectDynamicEmployee" parameterType="com.qst.po.Employee">
+	      update tb_employee
+	  <trim prefix="set" suffixOverrides="," suffix="where empid=#{empid}">
+	      <if test="name!=null and name!=''">
+	        name=#{name},
+	      </if>
+	      <if test="gender!=null  and gender!=''">
+	         gender=#{gender},
+	      </if>
+	      <if test="position!=null and position!=''">
+	         position=#{position},
+	      </if>
+	  </trim>  
+	 </update>
+	 
+	 
+	 	  	<!--  set -->
+	 <update id="setDynamicEmployee" parameterType="com.qst.po.Employee">
+	      update tb_employee
+	  <set>
+	      <if test="name!=null and name!=''">
+	        name=#{name},
+	      </if>
+	      <if test="gender!=null  and gender!=''">
+	         gender=#{gender},
+	      </if>
+	      <if test="email!=null and email!=''">
+	         email=#{email},
+	      </if>
+	          <if test="note!=null and note!=''">
+	         note=#{note},
+	      </if>
+	       
+	  </set>  
+	  where empid=#{empid}
+	 </update>
+	 
+	 
+	<!--  模糊查找，根据名字
+	<select id="selectEmployeeByName1" resultType="employee" parameterType="String">
+	 select * from tb_employee where name like  '%${name}%' 
+	</select> -->
+	
+	<!-- 通国注解传递多个参数,适合传递参数较少的情况  -->
+	<update id="updatetrimshouelectDynamicEmployee" >
+	      update tb_employee
+	        set name=#{name}	    
+	          where empid=#{empid}	  
+	 </update>
+	  
+	<!--  bind模糊查找，根据名字-->
+	<select id="selectBindEmployee" parameterType="String" resultType="employee" >
+	 <bind name="test_name" value="'%'+name+'%'"/>
+	 select * from tb_employee where name like #{test_name} 
+	</select>  
+	
+	
+</mapper>
+<!-- 
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ <mapper namespace="org.mybatis.example.BlogMapper"> 
+ <select id="selectBlog" resultType="Blog">  
+   select * from Blog where id = #{id}  
+   </select> 
+   </mapper> 
+   -->
