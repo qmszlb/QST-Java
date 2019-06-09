@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.dao.UserDao">
+    <resultMap type="com.qst.pojo.UserInfo" id="UserResultMap">
+        <id column="user_id" property="userId"></id>
+        <result column="user_name" property="userName" />
+        <result column="user_pass" property="userPass" />
+        <result column="user_sex" property="userSex" />
+        <result column="user_age" property="userAge" />
+    </resultMap>
+
+    <select id="selectUserByName"
+            parameterType="com.qst.pojo.UserInfo" resultMap="UserResultMap">
+        select * from tb_user_info where 1=1
+        <if test="userName!=null and userName!=''">
+            and user_name like CONCAT('%',#{userName},'%')
+        </if>
+        <if test="userSex!=null and userSex!=''">
+            and user_sex=#{userSex}
+        </if>
+    </select>
+    <!-- 模糊查询：根据名字查询 -->
+    <!-- <select id="selectUserByName" parameterType="com.qst.pojo.UserInfo"
+        resultMap="UserResultMap"> -->
+    <!-- select * from user_info where 1=1 -->
+    <!-- <if test="userName!=null and userName!=''"> -->
+    <!-- and user_name like concat('%',#{userName},'%') -->
+    <!-- </if> -->
+
+    <!-- </select> -->
+
+
+    <!-- if动态查询 -->
+    <!-- <select id="selectUserByName" parameterType="com.qst.pojo.UserInfo"
+        resultMap="UserResultMap"> -->
+    <!-- select * from user_info where 1=1 -->
+    <!-- <if test="userName!=null and userName!=''"> -->
+    <!-- and user_name =#{userName} -->
+    <!-- </if> -->
+    <!-- <if test="userSex!=null and userSex!=''"> -->
+    <!-- and user_sex=#{userSex} -->
+    <!-- </if> -->
+    <!-- </select> -->
+
+    <!-- where动态查询 -->
+    <!-- <select id="selectWhereDynamicCommodity" resultType="com.qst.po.Commodity"
+        parameterType = "commodity"> -->
+    <!-- select * from tb_commodity -->
+    <!-- <where> -->
+    <!-- <if test="comname !=null and comname !=' '"> -->
+    <!-- comname=#{comname} -->
+    <!-- </if> -->
+    <!-- <if test="comprice !=null and comprice !=' '"> -->
+    <!-- and comprice=#{comprice} -->
+    <!-- </if> -->
+    <!-- </where> -->
+
+    <!-- </select> -->
+
+
+
+
+
+
+
+</mapper>
